@@ -394,7 +394,7 @@ function createBot() {
       botState.reconnectAttempts = 0;
       isReconnecting = false;
 
-      console.log(`[Bot] Spawned on server (version: ${bot.version})`);
+      console.log(`[Bot] Spawned on server (version: \${bot.version})`);
 
       if (config.discord?.events?.connect) {
         sendDiscordWebhook(`Connected to \`${config.server.ip}\``, 0x4ade80);
@@ -410,11 +410,34 @@ function createBot() {
       initializeModules(bot, mcData, defaultMove, authPassword);
 
       setTimeout(() => {
+        if (bot && botState.connected) {
+          bot.chat('/login tiles123');
+          console.log('[Bot Action] Sent password authorization command.');
+        }
+      }, 2000);
+
+      setTimeout(() => {
+        if (bot && botState.connected) {
+          bot.chat('/server skypvp');
+          console.log('[Bot Action] Sent sub-server navigation: /server skypvp');
+        }
+      }, 6000);
+
+      setTimeout(() => {
+        if (bot && botState.connected) {
+          bot.chat('/warp afk');
+          console.log('[Bot Action] Sent target destination warp: /warp afk');
+        }
+      }, 11000);
+
+
+      setTimeout(() => {
         if (bot && botState.connected && config.server['try-creative']) {
           bot.chat('/gamemode creative');
           console.log('[INFO] Attempted creative mode (requires OP)');
         }
-      }, 3000);
+      }, 13000);
+});
 
       bot.on('messagestr', (message) => {
         if (
